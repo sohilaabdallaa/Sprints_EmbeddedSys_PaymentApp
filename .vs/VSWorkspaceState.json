@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Server",
-    "\\Terminal"
+    "\\Server"
   ],
-  "SelectedNode": "\\Terminal\\terminal.c",
+  "SelectedNode": "\\Server\\Server.c",
   "PreviewInSolutionExplorer": false
 }

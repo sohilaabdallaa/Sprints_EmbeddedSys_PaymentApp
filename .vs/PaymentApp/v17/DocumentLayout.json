@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "E:\\ITI\\Embedded Systems\\PaymentApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Terminal\\terminal.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Terminal\\terminal.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\Server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Server\\Server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Terminal\\terminal.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Terminal\\terminal.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Server\\server.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "terminal.c",
-              "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Terminal\\terminal.c",
-              "RelativeDocumentMoniker": "Terminal\\terminal.c",
-              "ToolTip": "E:\\ITI\\Embedded Systems\\PaymentApp\\Terminal\\terminal.c",
-              "RelativeToolTip": "Terminal\\terminal.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-04-07T22:45:51.299Z",
+              "DocumentIndex": 1,
+              "Title": "server.h",
+              "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.h",
+              "RelativeDocumentMoniker": "Server\\server.h",
+              "ToolTip": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.h",
+              "RelativeToolTip": "Server\\server.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAABhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-04-07T22:56:12.43Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "terminal.h",
-              "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Terminal\\terminal.h",
-              "RelativeDocumentMoniker": "Terminal\\terminal.h",
-              "ToolTip": "E:\\ITI\\Embedded Systems\\PaymentApp\\Terminal\\terminal.h",
-              "RelativeToolTip": "Terminal\\terminal.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-04-07T22:45:25.085Z",
+              "DocumentIndex": 0,
+              "Title": "server.c",
+              "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.c",
+              "RelativeDocumentMoniker": "Server\\server.c",
+              "ToolTip": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.c",
+              "RelativeToolTip": "Server\\server.c",
+              "ViewState": "AQIAACYAAAAAAAAAAAAAADIAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-04-07T22:56:11.412Z",
               "EditorCaption": ""
             }
           ]
