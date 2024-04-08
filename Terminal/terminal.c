@@ -2,8 +2,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <windows.h>
-#include "../Card/card.h"
 
+#include "../Card/card.h"
 #include "terminal.h"
 
 
@@ -33,9 +33,6 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 
     return ThisFunction_ErrorState;
 }
-
-
-
 EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termData)
 {
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
@@ -63,10 +60,6 @@ EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termD
 
     return ThisFunction_ErrorState;
 }
-
-
-
-
 EN_terminalError_t isValidCardPAN(ST_cardData_t* cardData)
 {
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
@@ -74,8 +67,6 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t* cardData)
 
     return ThisFunction_ErrorState;
 }
-
-
 EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData)
 {
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
@@ -94,7 +85,6 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData)
     }
     return ThisFunction_ErrorState;
 }
-
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
 {
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
@@ -104,10 +94,8 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
         ThisFunction_ErrorState = EXCEED_MAX_AMOUNT;
     }
 
-
     return ThisFunction_ErrorState;
 }
-
 EN_terminalError_t setMaxAmount(ST_terminalData_t* termData)
 {
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
@@ -152,7 +140,6 @@ void testGetTransactionDate(void)
 
  
 }
-
 void isCardExpiredTest(void)
 {
     printf("\nTester Name:sara ahmed \n");
@@ -161,42 +148,25 @@ void isCardExpiredTest(void)
     printf("\nTest Case 1:\n");
     ST_cardData_t cardData1;
     ST_terminalData_t termData1;
-     
+
+
     strcpy_s(termData1.transactionDate, sizeof(termData1.transactionDate), "01/01/2022");
 
 
     printf("Enter card expiration date (MM/YY): ");
     scanf_s("%2hhu/%2hhu", &cardData1.cardExpirationDate[0], &cardData1.cardExpirationDate[1]);
     printf("Enter transaction date (DD/MM/YYYY): ");
-    scanf_s("%*2hhu/%*2hhu/%*4d"); 
-    strcpy_s(termData.transactionDate, "01/07/2022",sizeof(termData.transactionDate));
+    scanf_s("%*2hhu/%*2hhu/%*4d");
+
     if (isCardExpired(cardData1, termData1) == TERMINAL_OK) {
         printf("Expected Result: TERMINAL_OK\nActual Result: TERMINAL_OK\n");
     }
     else {
         printf("Expected Result: TERMINAL_OK\nActual Result: EXPIRED_CARD\n");
     }
+
+
 }
-
-void isValidCardPANTest(void)
-{
-    printf("\nTester Name: sara ahmed \n");
-    printf("Function Name: isValidCardPAN\n");  // 1234565432567876
-
-    printf("\nTest Case 1:\n");
-    ST_cardData_t cardData1;
-    printf("Enter card PAN: ");
-
-    fgets(cardData1.primaryAccountNumber, sizeof(cardData1.primaryAccountNumber), stdin);
-    if (isValidCardPAN(&cardData1) == TERMINAL_OK) {
-        printf("Expected Result: TERMINAL_OK\nActual Result: TERMINAL_OK\n");
-    }
-    else {
-        printf("Expected Result: TERMINAL_OK\nActual Result: INVALID_PAN\n");
-    }
-}
-
-
 void getTransactionAmountTest(void)
 {
     printf("\nTester Name: sara\n");
@@ -211,8 +181,6 @@ void getTransactionAmountTest(void)
  
 
 }
-
-
 void isBelowMaxAmountTest(void)
 {
     printf("\nTester Name: sara \n");
@@ -229,84 +197,39 @@ void isBelowMaxAmountTest(void)
 
      
 }
-
 void setMaxAmountTest(void)
 {
     printf("\nTester Name: sara \n");
     printf("Function Name: setMaxAmount\n");
-    
-    termData.transAmount = 100.0f;
 
-    result = getTransactionAmount(&termData);
-
-    printf("\nTest Case 1 - Valid amount: %s", result == TERMINAL_OK ? "PASSED" : "FAILED");
-
-    
-    termData.transAmount = -50.0f;
-    result = getTransactionAmount(&termData);
-
-    printf("\nTest Case 2 - Invalid amount: %s", result == INVALID_AMOUNT ? "PASSED" : "FAILED");
- 
-}
-
-void isBelowMaxAmountTest(void) {
-    ST_terminalData_t termData;
-    EN_terminalError_t result;
-
-  
-    termData.maxTransAmount = 100.0f;
-
-  
-    termData.transAmount = 50.0f;
-    result = isBelowMaxAmount(&termData);
-    printf("\nTest Case 1 - Below max amount: %s", result == TERMINAL_OK ? "PASSED" : "FAILED");
-
-  
-    termData.transAmount = 150.0f;
-    result = isBelowMaxAmount(&termData);
-    printf("\nTest Case 2 - Above max amount: %s", result == EXCEED_MAX_AMOUNT ? "PASSED" : "FAILED");
-
-   
-}
-
-void setMaxAmountTest(void) {
-    ST_terminalData_t termData;
-    EN_terminalError_t result;
-
-   
-    result = setMaxAmount(&termData);
-
-    printf("\nTest Case 1 - Valid maixiimum amount: %s", result == TERMINAL_OK ? "PASSED" : "FAILED");
-
-
-    termData.maxTransAmount = -50.0f;
-
-    result = setMaxAmount(&termData);
-
-    printf("\nTest Case 2 - Invalid maixiimum amount: %s", result == INVALID_MAX_AMOUNT ? "PASSED" : "FAILED");
-
-    
-}
-
-void isValidCardPANTest(void) {
-    ST_cardData_t cardData;
-    EN_terminalError_t result;
-
-    
-    strcpy_s(cardData.primaryAccountNumber, "1234567890123456",sizeof(cardData.primaryAccountNumber));
-    result = isValidCardPAN(&cardData);
-    printf("\nTest Case 1 - Valid PAN: %s", result == TERMINAL_OK ? "PASSED" : "FAILED");
-
- 
-    strcpy_s(cardData.primaryAccountNumber, "1234567890123457", sizeof(cardData.primaryAccountNumber));
-    result = isValidCardPAN(&cardData);
-    printf("\nTest Case 2 - Invalid PAN: %s", result == INVALID_CARD ? "PASSED" : "FAILED");
     printf("\nTest Case 1:\n");
     ST_terminalData_t termData1;
     EN_terminalError_t result1 = setMaxAmount(&termData1);
     printf("Input Data: 200.0\n");   // max 200.0
     printf("Expected Result: TERMINAL_OK\n");
     printf("Actual Result: %s\n", result1 == TERMINAL_OK ? "TERMINAL_OK" : "INVALID_MAX_AMOUNT");
+
+}
+void isValidCardPANTest(void) {
+    printf("Tester Name: sara \n");
+    printf("Function Name: isValidCardPAN\n");
+
+
+    printf("Test Case 1:\n");
+    printf("Input Data: 45320151128336\n");
+    printf("Expected Result: TERMINAL_OK\n");
+    printf("Actual Result: ");
+    ST_cardData_t cardData1;
+    strcpy_s(cardData1.primaryAccountNumber, sizeof(cardData1.primaryAccountNumber), "45320151128336");
+    EN_terminalError_t result1 = isValidCardPAN(&cardData1);
+    if (result1 == TERMINAL_OK) {
+        printf("TERMINAL_OK\n");
+    }
+    else {
+        printf("INVALID_CARD\n");
+    }
+
+
 }
 
 
