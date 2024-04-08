@@ -46,7 +46,7 @@ EN_transStat_t recieveTransactionData(ST_transaction* transData)
     return FRAUD_CARD;
 
     // if the amount is not available 
-    if (currentAccount.balance <= 0.0)
+    if (transData->terminalData.transAmount < currentAccount.balance )
     {
         return DECLINED_INSUFFECIENT_FUND;
     }
@@ -147,7 +147,70 @@ void isBlockedAccountTest(void) {
     printf("Actual Result: %s\n\n", actual2 == BLOCKED_ACCOUNT ? "BLOCKED_ACCOUNT" : "SERVER_OK");
 }
 
-int main() {
-    isBlockedAccountTest(); // Run the test function
-    return 0;
+
+EN_serverError_t isAmountAvailable(ST_terminalData_t* termData, ST_accountsDB_t* accountRefrence)
+{
+    if(termData->transAmount > accountRefrence->balance)
+    {
+        return LOW_BALANCE;
+    }
+    else
+    {
+        return SERVER_OK;
+    }
+}
+
+// Test function for isAmountAvailable()
+void isAmountAvailableTest(void)
+{
+    printf("Testing isAmountAvailable() function:\n");
+
+    // Test case 1: Sufficient balance
+    ST_terminalData_t termData1 = {100}; // Transaction amount
+    ST_accountsDB_t accountRef1 = {200, RUNNING, "12345678901234567890"}; // Account with sufficient balance
+    printf("Test case 1: Sufficient balance\n");
+    printf("Input Data: Transaction amount = %f, Account balance = %f, Account number = %s\n", termData1.transAmount, accountRef1.balance, accountRef1.primaryAccountNumber);
+    EN_serverError_t result1 = isAmountAvailable(&termData1, &accountRef1);
+    printf("Expected Result: SERVER_OK\n");
+    printf("Actual Result: %s\n", result1 == SERVER_OK ? "SERVER_OK" : "LOW_BALANCE");
+
+    // Test case 2: Insufficient balance
+    ST_terminalData_t termData2 = {300}; // Transaction amount
+    ST_accountsDB_t accountRef2 = {200, RUNNING, "09876543210987654321"}; // Account with insufficient balance
+    printf("Test case 2: Insufficient balance\n");
+    printf("Input Data: Transaction amount = %f, Account balance = %f, Account number = %s\n", termData2.transAmount, accountRef2.balance, accountRef2.primaryAccountNumber);
+    EN_serverError_t result2 = isAmountAvailable(&termData2, &accountRef2);
+    printf("Expected Result: LOW_BALANCE\n");
+    printf("Actual Result: %s\n", result2 == LOW_BALANCE ? "LOW_BALANCE" : "SERVER_OK");
+
+}
+EN_serverError_t saveTransaction(ST_transaction* transData)
+{
+
+}
+
+// Function to print all transactions in the transactions DB
+void listSavedTransactions(void)
+{
+    // Iterate over each transaction and print its details
+    for (int i = 0; i < sizeof(transactions) / sizeof(transactions[0]); i++)
+    {
+        // Check if the transaction is empty (all fields are zeros)
+        if (transactions[i].transactionSequenceNumber == 0 &&
+            transactions[i].cardHolderData.primaryAccountNumber[0] == '\0')
+        {
+            continue; // Skip empty transactions
+        }
+
+        printf("#########################\n");
+        printf("Transaction Sequence Number: %d\n", transactions[i].transactionSequenceNumber);
+        printf("Transaction Date: %s\n", transactions[i].terminalData.transactionDate);
+        printf("Transaction Amount: %.2f\n", transactions[i].terminalData.transAmount);
+        printf("Transaction State: %d\n", transactions[i].transState);
+        printf("Terminal Max Amount: %.2f\n", transactions[i].terminalData.maxTransAmount);
+        printf("Cardholder Name: %s\n", transactions[i].cardHolderData.cardHolderName);
+        printf("PAN: %s\n", transactions[i].cardHolderData.primaryAccountNumber);
+        printf("Card Expiration Date: %s\n", transactions[i].cardHolderData.cardExpirationDate);
+        printf("#########################\n");
+    }
 }
