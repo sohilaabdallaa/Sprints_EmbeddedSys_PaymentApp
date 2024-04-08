@@ -184,9 +184,47 @@ void isAmountAvailableTest(void)
     printf("Actual Result: %s\n", result2 == LOW_BALANCE ? "LOW_BALANCE" : "SERVER_OK");
 
 }
+
+
 EN_serverError_t saveTransaction(ST_transaction* transData)
 {
+    // Find the last used sequence number in the transactions database
+    uint32_t lastUsedSequenceNumber = 0;
+    int i = 0;
+    for (i = 0; i < sizeof(transactions) / sizeof(transactions[0]); i++)
+    {
+        if (transactions[i].transactionSequenceNumber != 0 &&
+            transactions[i].transactionSequenceNumber > lastUsedSequenceNumber)
+        {
+            lastUsedSequenceNumber = transactions[i].transactionSequenceNumber;
+        }
+    }
 
+    // Increment the last used transaction sequence number
+    lastUsedSequenceNumber + 1;
+
+    // Find the first available slot in the transactions database
+    for (i = 0; i < sizeof(transactions) / sizeof(transactions[0]); i++)
+    {
+        if (transactions[i].transactionSequenceNumber == 0)
+        {
+            // Found an empty slot, store the transaction data
+            transactions[i] = *transData;
+            transactions[i].transactionSequenceNumber = lastUsedSequenceNumber;
+            break;
+        }
+    }
+
+    // Check if the transactions database is full
+    if (i == sizeof(transactions) / sizeof(transactions[0]))
+    {
+        return SAVING_FAILED; // Return error if database is full
+    }
+
+    // List all saved transactions
+    listSavedTransactions();
+
+    return SERVER_OK; // Return success
 }
 
 // Function to print all transactions in the transactions DB
