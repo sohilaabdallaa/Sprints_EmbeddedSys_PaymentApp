@@ -3,9 +3,7 @@
 #include <string.h>
 #include <windows.h>
 
-#include "card.c"
-#include "card.h"
- 
+#include "../Card/card.h"
 #include "terminal.h"
 
 EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
@@ -140,19 +138,19 @@ void getTransactionDateTest(void) {
     EN_terminalError_t result;
 
  
-    strcpy(termData.transactionDate, "25/06/2022");
+    strcpy_s(termData.transactionDate, "25/06/2022",sizeof(termData.transactionDate));
 
     result = getTransactionDate(&termData);
 
     printf("\nTest Case 1 - Valid date: %s", result == TERMINAL_OK ? "PASSED" : "FAILED");
 
-     strcpy(termData.transactionDate, "");
+     strcpy_s(termData.transactionDate, "",sizeof(char));
 
     result = getTransactionDate(&termData);
 
     printf("\nTest Case 2 - NULL date: %s", result == WRONG_DATE ? "PASSED" : "FAILED");
 
-    strcpy(termData.transactionDate, "25-06-2022");
+    strcpy_s(termData.transactionDate, "25-06-2022", sizeof(termData.transactionDate));
 
     result = getTransactionDate(&termData);
 
@@ -166,17 +164,17 @@ void isCardExpiredTest(void) {
     ST_terminalData_t termData;
     EN_terminalError_t result;
  
-    strcpy(cardData.cardExpirationDate, "06/2022");
+    strcpy_s(cardData.cardExpirationDate, "06/2022",sizeof(cardData.cardExpirationDate));
 
      
-    strcpy(termData.transactionDate, "01/06/2022");
+    strcpy_s(termData.transactionDate, "01/06/2022",sizeof(termData.transactionDate));
 
     result = isCardExpired(cardData, termData);
 
     printf("\nTest Case 1 - Expired card: %s", result == EXPIRED_CARD ? "PASSED" : "FAILED");
 
     
-    strcpy(termData.transactionDate, "01/07/2022");
+    strcpy_s(termData.transactionDate, "01/07/2022",sizeof(termData.transactionDate));
 
     result = isCardExpired(cardData, termData);
 
@@ -247,12 +245,12 @@ void isValidCardPANTest(void) {
     EN_terminalError_t result;
 
     
-    strcpy(cardData.primaryAccountNumber, "1234567890123456");
+    strcpy_s(cardData.primaryAccountNumber, "1234567890123456",sizeof(cardData.primaryAccountNumber));
     result = isValidCardPAN(&cardData);
     printf("\nTest Case 1 - Valid PAN: %s", result == TERMINAL_OK ? "PASSED" : "FAILED");
 
  
-    strcpy(cardData.primaryAccountNumber, "1234567890123457");
+    strcpy_s(cardData.primaryAccountNumber, "1234567890123457", sizeof(cardData.primaryAccountNumber));
     result = isValidCardPAN(&cardData);
     printf("\nTest Case 2 - Invalid PAN: %s", result == INVALID_CARD ? "PASSED" : "FAILED");
 

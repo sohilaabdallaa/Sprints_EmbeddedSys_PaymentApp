@@ -1,9 +1,7 @@
 #ifndef _terminal_h_
 #define _terminal_h_
 
-#include "card.h" 
-
-#include "card.c"
+#include "../Card/card.h" 
  
 typedef struct ST_terminalData_t
 {

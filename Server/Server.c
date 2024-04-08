@@ -10,23 +10,23 @@ void initialize_Valid_Accounts(void)
     // Fill in the array with sample account data
     accountsDB[0].balance = 2000.0;
     accountsDB[0].state = RUNNING;
-    strcpy(accountsDB[0].primaryAccountNumber,"8989374615436851");
+    strcpy_s(accountsDB[0].primaryAccountNumber,"8989374615436851",sizeof(accountsDB->primaryAccountNumber));
 
     accountsDB[1].balance = 30000.0;
     accountsDB[1].state = BLOCKED;
-    strcpy(accountsDB[1].primaryAccountNumber, "5807007076043875");
+    strcpy_s(accountsDB[1].primaryAccountNumber, "5807007076043875", sizeof(accountsDB->primaryAccountNumber));
 
     accountsDB[2].balance = 10000.0;
     accountsDB[2].state = RUNNING;
-    strcpy(accountsDB[2].primaryAccountNumber, "5555666677778888");
+    strcpy_s(accountsDB[2].primaryAccountNumber, "5555666677778888",sizeof(accountsDB->primaryAccountNumber));
 
     accountsDB[3].balance = 9000.0;
     accountsDB[3].state = RUNNING;
-    strcpy(accountsDB[3].primaryAccountNumber, "1122334455667788");
+    strcpy_s(accountsDB[3].primaryAccountNumber, "1122334455667788", sizeof(accountsDB->primaryAccountNumber));
 
     accountsDB[4].balance = 500.0;
     accountsDB[4].state = BLOCKED;
-    strcpy(accountsDB[4].primaryAccountNumber, "9876543210987654");
+    strcpy_s(accountsDB[4].primaryAccountNumber, "9876543210987654", sizeof(accountsDB->primaryAccountNumber));
 }
 
 // This function will take all transaction data and validate its data
@@ -69,7 +69,7 @@ EN_transStat_t recieveTransactionData(ST_transaction* transData)
 }
 // Function to check if the account is valid
 EN_serverError_t isValidAccount(ST_cardData_t *cardData, ST_accountsDB_t *accountRefrence) {
-    if (strcmp(getCardPAN(cardData), accountRefrence->primaryAccountNumber) != 0) {
+    if (strcmp(cardData->primaryAccountNumber, accountRefrence->primaryAccountNumber) != 0) {
         accountRefrence = NULL;
         return ACCOUNT_NOT_FOUND;
     }
@@ -201,7 +201,7 @@ EN_serverError_t saveTransaction(ST_transaction* transData)
     }
 
     // Increment the last used transaction sequence number
-    lastUsedSequenceNumber + 1;
+    lastUsedSequenceNumber += 1;
 
     // Find the first available slot in the transactions database
     for (i = 0; i < sizeof(transactions) / sizeof(transactions[0]); i++)
