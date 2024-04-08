@@ -5,7 +5,7 @@
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 {
     EN_cardError_t ThisFunction_ErrorState = CARD_OK;
-    uint8_t CardHolderName[25] = {0};
+    uint8_t CardHolderName[25] = { 0 };
     printf("\nEnter the card holder name: ");
     fgets(CardHolderName, sizeof(CardHolderName), stdin);
     size_t  NameLength = strlen(CardHolderName);
@@ -36,23 +36,35 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 {
     EN_cardError_t ThisFunction_ErrorState = CARD_OK;
 
-    uint8_t cardExpirationDate[25] = { 0 };
+    uint8_t cardExpirationDate[6] = { 0 };
 
     printf("\nEnter the card expiration date (MM/YY): ");
     fgets(cardExpirationDate, sizeof(cardExpirationDate), stdin);
 
     size_t DateLength = strlen(cardExpirationDate);
 
-    if ((DateLength != 6) || (cardExpirationDate[2] != '/'))
+    if ((DateLength != 5) || (cardExpirationDate[2] != '/'))
     {
         ThisFunction_ErrorState = WRONG_EXP_DATE;
     }
+
     else
     {
-        // Remove newline character
-        cardExpirationDate[5] = '\0';
-        if (strcpy_s(cardData->cardExpirationDate, sizeof(cardData->cardExpirationDate), cardExpirationDate) != 0) {
+        int month = atoi(cardExpirationDate);
+        int year = atoi(cardExpirationDate);
+        if ((month < 1 || month > 12 || year < 0 || year > 99)) {
+
             ThisFunction_ErrorState = WRONG_EXP_DATE;
+
+        }
+        // Remove newline character
+
+        else {
+            cardExpirationDate[5] = '\0';
+
+            if (strcpy_s(cardData->cardExpirationDate, sizeof(cardData->cardExpirationDate), cardExpirationDate) != 0) {
+                ThisFunction_ErrorState = WRONG_EXP_DATE;
+            }
         }
     }
 
@@ -63,7 +75,7 @@ EN_cardError_t getCardPAN(ST_cardData_t* cardData)
 {
     EN_cardError_t ThisFunction_ErrorState = CARD_OK;
 
-    uint8_t cardPAN[21] = { 0 }; 
+    uint8_t cardPAN[20] = { 0 };
 
     printf("\nEnter the card primary account number: ");
     fgets(cardPAN, sizeof(cardPAN), stdin);
@@ -118,7 +130,7 @@ void testGetCardExpiryDate(void)
     printf("\nTester Name: mostafa mohamed\n");
     printf("Function Name: getCardExpiryDate\n");
 
-    
+
     printf("\nTest Case 1 :\n");
     ST_cardData_t cardData1;
     printf("Enter card expiration date (MM/YY): ");
@@ -146,7 +158,7 @@ void testGetCardPAN(void)
     printf("\nTester Name: mostafa mohamed\n");
     printf("Function Name: getCardPAN\n");
 
-    
+
     printf("\nTest Case 1:\n");
     ST_cardData_t cardData1;
     printf("Enter card primary account number (16-19 digits): ");

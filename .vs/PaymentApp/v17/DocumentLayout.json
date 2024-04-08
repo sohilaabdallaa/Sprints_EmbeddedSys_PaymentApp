@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\ITI\\Embedded Systems\\PaymentApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Card\\card.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Card\\card.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Server\\server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -18,11 +22,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "card.c",
+              "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Card\\card.c",
+              "RelativeDocumentMoniker": "Card\\card.c",
+              "ToolTip": "E:\\ITI\\Embedded Systems\\PaymentApp\\Card\\card.c",
+              "RelativeToolTip": "Card\\card.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-04-08T22:18:35.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "server.h",
               "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.h",
               "RelativeDocumentMoniker": "Server\\server.h",
@@ -34,7 +51,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "server.c",
               "DocumentMoniker": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\Server.c",
               "RelativeDocumentMoniker": "Server\\Server.c",
