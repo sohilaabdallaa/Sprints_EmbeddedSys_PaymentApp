@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "E:\\ITI\\Embedded Systems\\PaymentApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\Server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Server\\Server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Server\\server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -30,8 +30,7 @@
               "RelativeToolTip": "Server\\server.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAABhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-04-07T22:56:12.43Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-07T22:56:12.43Z"
             },
             {
               "$type": "Document",
@@ -41,7 +40,7 @@
               "RelativeDocumentMoniker": "Server\\server.c",
               "ToolTip": "E:\\ITI\\Embedded Systems\\PaymentApp\\Server\\server.c",
               "RelativeToolTip": "Server\\server.c",
-              "ViewState": "AQIAACYAAAAAAAAAAAAAADIAAAAGAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADIAAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-04-07T22:56:11.412Z",
               "EditorCaption": ""
