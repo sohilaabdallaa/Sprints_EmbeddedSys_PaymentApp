@@ -1,36 +1,18 @@
 #include "server.h"
 // Global array of ST_transaction_t for transaction data
-ST_transaction transactions[255] = {0}; // Initializing with zeros
+ST_transaction transactions[255] = { 0 }; // Initializing with zeros
 
 // global array of ST_accountsDB_t for the valid accounts database
-ST_accountsDB_t accountsDB[255];
-
-void initialize_Valid_Accounts(void)
-{
-    // Fill in the array with sample account data
-    accountsDB[0].balance = 2000.0;
-    accountsDB[0].state = RUNNING;
-    strcpy_s(accountsDB[0].primaryAccountNumber, "8989374615436851", sizeof(accountsDB->primaryAccountNumber));
-
-    accountsDB[1].balance = 30000.0;
-    accountsDB[1].state = BLOCKED;
-    strcpy_s(accountsDB[1].primaryAccountNumber, "5807007076043875", sizeof(accountsDB->primaryAccountNumber));
-
-    accountsDB[2].balance = 10000.0;
-    accountsDB[2].state = RUNNING;
-    strcpy_s(accountsDB[2].primaryAccountNumber, "5555666677778888", sizeof(accountsDB->primaryAccountNumber));
-
-    accountsDB[3].balance = 9000.0;
-    accountsDB[3].state = RUNNING;
-    strcpy_s(accountsDB[3].primaryAccountNumber, "1122334455667788", sizeof(accountsDB->primaryAccountNumber));
-
-    accountsDB[4].balance = 500.0;
-    accountsDB[4].state = BLOCKED;
-    strcpy_s(accountsDB[4].primaryAccountNumber, "9876543210987654", sizeof(accountsDB->primaryAccountNumber));
-}
+ST_accountsDB_t accountsDB[255] = { 
+    {2000.0, RUNNING, "8989374615436851"},
+    {30000.0, BLOCKED, "5807007076043875"},
+    {10000.0, RUNNING, "5555666677778888"},
+    {9000.0, RUNNING, "1122334455667788"},
+    {500.0, BLOCKED, "9876543210987654"},
+};
 
 // This function will take all transaction data and validate its data
-EN_transStat_t recieveTransactionData(ST_transaction *transData)
+EN_transStat_t recieveTransactionData(ST_transaction* transData)
 {
     // check If the account does not exist
     int accountsDB_Length = sizeof(accountsDB) / sizeof(accountsDB[0]);
@@ -71,25 +53,24 @@ void recieveTransactionDataTest(void)
     printf("Test Case 1:\n");
     ST_transaction transaction = {
         .cardHolderData = {
-            .primaryAccountNumber = "9876543210987654",
+            .primaryAccountNumber = "5555666677778888",
         },
-        .terminalData = {.transAmount = 50}};
-    EN_transStat_t expectedResult1 = APPROVED;
+        .terminalData = {.transAmount = 50} };
     EN_transStat_t actualResult1 = recieveTransactionData(&transaction);
     printf("Input Data: Withrwal 50 EP from Valid account for test case 1\n");
-    printf("Expected Result: %s \n", expectedResult1);
-    printf("Actual Result: %s\n\n", actualResult1);
+    printf("Expected Result: %d \n");
+    printf("Actual Result: %d \n\n", actualResult1);
 
 
-    // Test Case 2: Transaction Declined - Insufficient Funds
+    // Test Case 2: Transaction Declined - DECLINED_STOLEN_CARD
     printf("Test Case 2:\n");
     ST_transaction transaction2 = {
         .cardHolderData = {.primaryAccountNumber = "9876543210987654"},
         .terminalData = {.transAmount = 500000} // Assuming insufficient funds for withdrawal
     };
-    EN_transStat_t expectedResult2 = DECLINED_INSUFFECIENT_FUND;
+    EN_transStat_t expectedResult2 = DECLINED_STOLEN_CARD;
     EN_transStat_t actualResult2 = recieveTransactionData(&transaction2);
-    printf("Input Data: Withdrawal 500000 EP from Valid account for test case 2\n");
+    printf("Input Data: Withdrawal 500000 EP from Blocked account\n");
     printf("Expected Result: %d\n", expectedResult2);
     printf("Actual Result: %d\n\n", actualResult2);
 
@@ -97,7 +78,7 @@ void recieveTransactionDataTest(void)
     printf("Test Case 3:\n");
     ST_transaction transaction3 = {
         .cardHolderData = {.primaryAccountNumber = "1234567890123456"}, // Non-existent account number
-        .terminalData = {.transAmount = 100}};
+        .terminalData = {.transAmount = 100} };
     EN_transStat_t expectedResult3 = ACCOUNT_NOT_FOUND;
     EN_transStat_t actualResult3 = recieveTransactionData(&transaction3);
     printf("Input Data: Withdrawal 100 EP from Non-existent account for test case 3\n");
@@ -106,7 +87,7 @@ void recieveTransactionDataTest(void)
 }
 
 // Function to check if the account is valid
-EN_serverError_t isValidAccount(ST_cardData_t *cardData, ST_accountsDB_t *accountRefrence)
+EN_serverError_t isValidAccount(ST_cardData_t* cardData, ST_accountsDB_t* accountRefrence)
 {
     if (strcmp(cardData->primaryAccountNumber, accountRefrence->primaryAccountNumber) != 0)
     {
@@ -116,7 +97,35 @@ EN_serverError_t isValidAccount(ST_cardData_t *cardData, ST_accountsDB_t *accoun
     return SERVER_OK;
 }
 
-EN_serverError_t isAmountAvailable(ST_terminalData_t *termData, ST_accountsDB_t *accountRefrence)
+
+// Function to test isValidAccount function
+void isValidAccountTest(void) {
+    printf("Tester Name:Sohila Abdalla\n");
+    printf("Function Name: isValidAccount\n");
+
+    // Test Case 1: Happy Case - Account found
+    printf("Test Case 1:\n");
+    ST_cardData_t card1 = { .primaryAccountNumber = "8989374615436851" };
+    ST_accountsDB_t account1 = { .primaryAccountNumber = "8989374615436851" };
+    EN_serverError_t expectedResult1 = SERVER_OK;
+    EN_serverError_t actualResult1 = isValidAccount(&card1, &account1);
+    printf("Input Data: Matching account number\n");
+    printf("Expected Result: SERVER_OK %d \n",expectedResult1);
+    printf("Actual Result: %d\n\n", actualResult1);
+
+    // Test Case 2: Account not found
+    printf("Test Case 2:\n");
+    ST_cardData_t card2 = { .primaryAccountNumber = "1234567890123456" };
+    ST_accountsDB_t account2 = { .primaryAccountNumber = "9876543210987654" };
+    EN_serverError_t expectedResult2 = ACCOUNT_NOT_FOUND;
+    EN_serverError_t actualResult2 = isValidAccount(&card2, &account2);
+    printf("Input Data: Non-matching account number\n");
+    printf("Expected Result: ACCOUNT_NOT_FOUND %d \n", expectedResult2);
+    printf("Actual Result: %d\n\n", actualResult2);
+}
+
+
+EN_serverError_t isAmountAvailable(ST_terminalData_t* termData, ST_accountsDB_t* accountRefrence)
 {
     if (termData->transAmount > accountRefrence->balance)
     {
@@ -128,8 +137,34 @@ EN_serverError_t isAmountAvailable(ST_terminalData_t *termData, ST_accountsDB_t 
     }
 }
 
+void isAmountAvailableTest(void) {
+    printf("Tester Name: Sohila Abdalla\n");
+    printf("Function Name: isAmountAvailable\n");
+
+    // Test Case 1: Happy Case - Sufficient balance
+    printf("Test Case 1:\n");
+    ST_terminalData_t termData1 = { .transAmount = 50 };
+    ST_accountsDB_t account1 = { .balance = 100 };
+    EN_serverError_t expectedResult1 = SERVER_OK;
+    EN_serverError_t actualResult1 = isAmountAvailable(&termData1, &account1);
+    printf("Input Data: Transaction amount: 50, Account balance: 100\n");
+    printf("Expected Result: SERVER_OK %d \n",expectedResult1);
+    printf("Actual Result: %d\n\n", actualResult1);
+
+    // Test Case 2: Low balance
+    printf("Test Case 2:\n");
+    ST_terminalData_t termData2 = { .transAmount = 500 };
+    ST_accountsDB_t account2 = { .balance = 200 };
+    EN_serverError_t expectedResult2 = LOW_BALANCE;
+    EN_serverError_t actualResult2 = isAmountAvailable(&termData2, &account2);
+    printf("Input Data: Transaction amount: 500, Account balance: 200\n");
+    printf("Expected Result: LOW_BALANCE %d \n", expectedResult2);
+    printf("Actual Result: %d\n\n", actualResult2);
+}
+
+
 // Function to check if an account is blocked
-EN_serverError_t isBlockedAccount(ST_accountsDB_t *accountRefrence)
+EN_serverError_t isBlockedAccount(ST_accountsDB_t* accountRefrence)
 {
     if (accountRefrence->state == BLOCKED)
     {
@@ -140,8 +175,29 @@ EN_serverError_t isBlockedAccount(ST_accountsDB_t *accountRefrence)
         return SERVER_OK;
     }
 }
+void isBlockedAccountTest(void) {
+    printf("Tester Name: Sohila Abdalla \n");
+    printf("Function Name: isBlockedAccount\n");
 
-EN_serverError_t saveTransaction(ST_transaction *transData)
+    // Test Case 1: Happy Case - Account is blocked
+    printf("Test Case 1:\n");
+    ST_accountsDB_t account1 = { .state = BLOCKED };
+    EN_serverError_t expectedResult1 = BLOCKED_ACCOUNT;
+    EN_serverError_t actualResult1 = isBlockedAccount(&account1);
+    printf("Input Data: Account state: BLOCKED\n");
+    printf("Expected Result: BLOCKED_ACCOUNT %d \n",expectedResult1);
+    printf("Actual Result: %d\n\n", actualResult1);
+
+    // Test Case 2: Account is not blocked
+    printf("Test Case 2:\n");
+    ST_accountsDB_t account2 = { .state = RUNNING };
+    EN_serverError_t expectedResult2 = SERVER_OK;
+    EN_serverError_t actualResult2 = isBlockedAccount(&account2);
+    printf("Input Data: Account state: RUNNING\n");
+    printf("Expected Result: SERVER_OK %d \n", expectedResult2);
+    printf("Actual Result: %d\n\n", actualResult2);
+}
+EN_serverError_t saveTransaction(ST_transaction* transData)
 {
     // Find the last used sequence number in the transactions database
     uint32_t lastUsedSequenceNumber = 0;
@@ -207,86 +263,45 @@ void listSavedTransactions(void)
     }
 }
 
-// Function to test isBlockedAccount function
-void isBlockedAccountTest(void)
-{
+void listSavedTransactionsTest(void) {
     printf("Tester Name: Your Name\n");
-    printf("Function Name: isBlockedAccount\n\n");
+    printf("Function Name: listSavedTransactions\n");
 
-    // Test case 1: Happy-case scenario (account is running)
+    // Test Case 1: Happy Case - Transaction data available
     printf("Test Case 1:\n");
-    printf("Input Data: Account is running\n");
-    ST_accountsDB_t account1 = {1000.0, RUNNING, "12345678901234567890"}; // Account is running
-    EN_serverError_t expected1 = SERVER_OK;
-    EN_serverError_t actual1 = isBlockedAccount(&account1);
-    printf("Expected Result: SERVER_OK\n");
-    printf("Actual Result: %s\n\n", actual1 == SERVER_OK ? "SERVER_OK" : "BLOCKED_ACCOUNT");
+    // Assuming transactions have been initialized with some data
+    // For demonstration, let's assume the first transaction has data
+    transactions[0].transactionSequenceNumber = 1;
+    strcpy(transactions[0].terminalData.transactionDate, "2024-04-01");
+    transactions[0].terminalData.transAmount = 100.0;
+    transactions[0].transState = APPROVED;
+    transactions[0].terminalData.maxTransAmount = 500.0;
+    strcpy(transactions[0].cardHolderData.cardHolderName, "John Doe");
+    strcpy(transactions[0].cardHolderData.primaryAccountNumber, "1234567890123456");
+    strcpy(transactions[0].cardHolderData.cardExpirationDate, "2025-12");
 
-    // Test case 2: Worst-case scenario (account is blocked)
+    // Capture the output of the listSavedTransactions function
+    printf("Expected Result (Sample Transaction):\n");
+    printf("#########################\n");
+    printf("Transaction Sequence Number: 1\n");
+    printf("Transaction Date: 2024-04-01\n");
+    printf("Transaction Amount: 100.00\n");
+    printf("Transaction State: APPROVED\n");
+    printf("Terminal Max Amount: 500.00\n");
+    printf("Cardholder Name: John Doe\n");
+    printf("PAN: 1234567890123456\n");
+    printf("Card Expiration Date: 2025-12\n");
+    printf("#########################\n");
+    printf("Actual Result:\n");
+    listSavedTransactions();
+    printf("\n");
+
+    // Test Case 2: No transaction data available
     printf("Test Case 2:\n");
-    printf("Input Data: Account is blocked\n");
-    ST_accountsDB_t account2 = {500.0, BLOCKED, "09876543210987654321"}; // Account is blocked
-    EN_serverError_t expected2 = BLOCKED_ACCOUNT;
-    EN_serverError_t actual2 = isBlockedAccount(&account2);
-    printf("Expected Result: BLOCKED_ACCOUNT\n");
-    printf("Actual Result: %s\n\n", actual2 == BLOCKED_ACCOUNT ? "BLOCKED_ACCOUNT" : "SERVER_OK");
-}
-
-// Test function for isAmountAvailable()
-void isAmountAvailableTest(void)
-{
-    printf("Testing isAmountAvailable() function:\n");
-
-    // Test case 1: Sufficient balance
-    ST_terminalData_t termData1 = {100};                                  // Transaction amount
-    ST_accountsDB_t accountRef1 = {200, RUNNING, "12345678901234567890"}; // Account with sufficient balance
-    printf("Test case 1: Sufficient balance\n");
-    printf("Input Data: Transaction amount = %f, Account balance = %f, Account number = %s\n", termData1.transAmount, accountRef1.balance, accountRef1.primaryAccountNumber);
-    EN_serverError_t result1 = isAmountAvailable(&termData1, &accountRef1);
-    printf("Expected Result: SERVER_OK\n");
-    printf("Actual Result: %s\n", result1 == SERVER_OK ? "SERVER_OK" : "LOW_BALANCE");
-
-    // Test case 2: Insufficient balance
-    ST_terminalData_t termData2 = {300};                                  // Transaction amount
-    ST_accountsDB_t accountRef2 = {200, RUNNING, "09876543210987654321"}; // Account with insufficient balance
-    printf("Test case 2: Insufficient balance\n");
-    printf("Input Data: Transaction amount = %f, Account balance = %f, Account number = %s\n", termData2.transAmount, accountRef2.balance, accountRef2.primaryAccountNumber);
-    EN_serverError_t result2 = isAmountAvailable(&termData2, &accountRef2);
-    printf("Expected Result: LOW_BALANCE\n");
-    printf("Actual Result: %s\n", result2 == LOW_BALANCE ? "LOW_BALANCE" : "SERVER_OK");
-}
-
-// Function to test isValidAccount function
-void isValidAccountTest(void)
-{
-    printf("Tester Name: Your Name\n");
-    printf("Function Name: isValidAccount\n\n");
-
-    // Test case 1: Happy-case scenario (account found)
-    printf("Test Case 1:\n");
-    printf("Input Data:\n");
-    ST_cardData_t cardData1 = {
-        .cardHolderName = "John Doe",
-        .primaryAccountNumber = "1234567890123456",
-        .cardExpirationDate = "12/25"};
-    ST_accountsDB_t account1 = {
-        .primaryAccountNumber = "1234567890123456"};
-    EN_serverError_t expected1 = SERVER_OK;
-    EN_serverError_t actual1 = isValidAccount(&cardData1, &account1);
-    printf("Expected Result: SERVER_OK\n");
-    printf("Actual Result: %s\n\n", actual1 == SERVER_OK ? "SERVER_OK" : "ACCOUNT_NOT_FOUND");
-
-    // Test case 2: Worst-case scenario (account not found)
-    printf("Test Case 2:\n");
-    printf("Input Data:\n");
-    ST_cardData_t cardData2 = {
-        .cardHolderName = "Jane Smith",
-        .primaryAccountNumber = "9876543210987654",
-        .cardExpirationDate = "11/24"};
-    ST_accountsDB_t account2 = {
-        .primaryAccountNumber = "1234567890123456"};
-    EN_serverError_t expected2 = ACCOUNT_NOT_FOUND;
-    EN_serverError_t actual2 = isValidAccount(&cardData2, &account2);
-    printf("Expected Result: ACCOUNT_NOT_FOUND\n");
-    printf("Actual Result: %s\n", actual2 == ACCOUNT_NOT_FOUND ? "ACCOUNT_NOT_FOUND" : "SERVER_OK");
+    // Assuming transactions have been initialized but no data has been added
+    // So, all transactions are empty
+    // Capture the output of the listSavedTransactions function
+    printf("Expected Result: No transaction data available\n");
+    printf("Actual Result:\n");
+    listSavedTransactions();
 }
