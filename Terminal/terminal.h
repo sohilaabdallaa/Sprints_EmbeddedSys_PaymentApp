@@ -4,7 +4,7 @@
 #include "card.h" 
 
 #include "card.c"
-
+ 
 typedef struct ST_terminalData_t
 {
     float transAmount;
