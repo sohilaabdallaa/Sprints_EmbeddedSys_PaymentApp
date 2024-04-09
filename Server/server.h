@@ -2,11 +2,11 @@
 #define SERVER_H
 
 #include <stdint.h>
-#include "../Card/card.h" 
-#include "../Terminal/terminal.h"
+#include "card.h" 
+#include "terminal.h"
 
 typedef enum EN_transState_t
-{ 
+{
     APPROVED, DECLINED_INSUFFECIENT_FUND, DECLINED_STOLEN_CARD, FRAUD_CARD, INTERNAL_SERVER_ERROR
 }EN_transStat_t;
 

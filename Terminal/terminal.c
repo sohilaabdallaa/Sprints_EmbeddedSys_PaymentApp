@@ -3,7 +3,7 @@
 #include <string.h>
 #include <windows.h>
 
-#include "../Card/card.h"
+#include "card.h"
 #include "terminal.h"
 
 
@@ -13,9 +13,10 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 
     uint8_t transactionDate[11] = { 0 };
 
-    printf("\n Enter the  date of transaction : ");
+    printf("Enter the  date of transaction : ");
 
     gets(transactionDate);
+
 
     uint8_t TransactionDateLength = strlen(transactionDate);
 
@@ -72,7 +73,7 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData)
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
 
     float transAmount = 0;
-    printf("\n Enter transaction amount: ");
+    printf("Enter transaction amount : ");
     scanf_s("%f", &transAmount);
 
     if ((0 >= transAmount))
@@ -96,14 +97,9 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
 
     return ThisFunction_ErrorState;
 }
-EN_terminalError_t setMaxAmount(ST_terminalData_t* termData)
+EN_terminalError_t setMaxAmount(ST_terminalData_t* termData,float maxTransAmount)
 {
     EN_terminalError_t ThisFunction_ErrorState = TERMINAL_OK;
-
-    float maxTransAmount = 0.0f;
-
-    printf("\n Enter  maximum amount of transaction : ");
-    scanf_s("%f", &maxTransAmount);
 
     if ((0 >= maxTransAmount))
     {
@@ -138,7 +134,7 @@ void testGetTransactionDate(void)
     }
 
 
- 
+
 }
 void isCardExpiredTest(void)
 {
@@ -178,7 +174,7 @@ void getTransactionAmountTest(void)
     printf("Input Data: N/A (Enter the transaction amount when prompted)\n");
     printf("Expected Result: TERMINAL_OK\n");
     printf("Actual Result: %s\n", result1 == TERMINAL_OK ? "TERMINAL_OK" : "INVALID_AMOUNT");
- 
+
 
 }
 void isBelowMaxAmountTest(void)
@@ -188,14 +184,14 @@ void isBelowMaxAmountTest(void)
 
     printf("\nTest Case 1:\n");
     ST_terminalData_t termData1;
-    termData1.transAmount = 100.0f;   
-    termData1.maxTransAmount = 500.0f;   
+    termData1.transAmount = 100.0f;
+    termData1.maxTransAmount = 500.0f;
     EN_terminalError_t result1 = isBelowMaxAmount(&termData1);
     printf("Input Data: Transaction Amount = 100.0, Maximum Allowed Amount = 200.0\n");
     printf("Expected Result: TERMINAL_OK\n");
     printf("Actual Result: %s\n", result1 == TERMINAL_OK ? "TERMINAL_OK" : "EXCEED_MAX_AMOUNT");
 
-     
+
 }
 void setMaxAmountTest(void)
 {
@@ -204,7 +200,7 @@ void setMaxAmountTest(void)
 
     printf("\nTest Case 1:\n");
     ST_terminalData_t termData1;
-    EN_terminalError_t result1 = setMaxAmount(&termData1);
+    EN_terminalError_t result1 = setMaxAmount(&termData1,200.0);
     printf("Input Data: 200.0\n");   // max 200.0
     printf("Expected Result: TERMINAL_OK\n");
     printf("Actual Result: %s\n", result1 == TERMINAL_OK ? "TERMINAL_OK" : "INVALID_MAX_AMOUNT");
@@ -231,6 +227,5 @@ void isValidCardPANTest(void) {
 
 
 }
-
 
 

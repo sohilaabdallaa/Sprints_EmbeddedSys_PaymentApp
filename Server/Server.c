@@ -7,29 +7,25 @@ ST_accountsDB_t accountsDB[255] = {
     {2000.0, RUNNING, "8989374615436851"},
     {30000.0, BLOCKED, "5807007076043875"},
     {10000.0, RUNNING, "5555666677778888"},
-    {9000.0, RUNNING, "1122334455667788"},
+    {7000.0, RUNNING, "1122334455667788"},
     {500.0, BLOCKED, "9876543210987654"},
 };
 
 // This function will take all transaction data and validate its data
 EN_transStat_t recieveTransactionData(ST_transaction* transData)
 {
-    // check If the account does not exist
     int accountsDB_Length = sizeof(accountsDB) / sizeof(accountsDB[0]);
+    // Loop until the last non-empty account
+    for (int i = 0; i < accountsDB_Length && accountsDB[i].primaryAccountNumber[0] != '\0'; i++) {
+        if (strcmp(transData->cardHolderData.primaryAccountNumber, accountsDB[i].primaryAccountNumber) == 0) {
 
-    for (int i = 0; i < accountsDB_Length; i++)
-    {
-        if (strcmp(transData->cardHolderData.primaryAccountNumber, accountsDB[i].primaryAccountNumber) == 0)
-        {
             // Account found, check if the account is blocked
-            if (accountsDB[i].state == BLOCKED)
-            {
+            if (accountsDB[i].state == BLOCKED) {
                 return DECLINED_STOLEN_CARD;
             }
 
             // Check if the transaction amount exceeds the balance
-            if (transData->terminalData.transAmount > accountsDB[i].balance)
-            {
+            if (transData->terminalData.transAmount > accountsDB[i].balance) {
                 return DECLINED_INSUFFECIENT_FUND;
             }
 
@@ -40,6 +36,7 @@ EN_transStat_t recieveTransactionData(ST_transaction* transData)
             return APPROVED;
         }
     }
+
     // Account not found, return fraud card
     return FRAUD_CARD;
 }
@@ -129,11 +126,11 @@ EN_serverError_t isAmountAvailable(ST_terminalData_t* termData, ST_accountsDB_t*
 {
     if (termData->transAmount > accountRefrence->balance)
     {
-        return LOW_BALANCE;
+        return SERVER_OK;
     }
     else
     {
-        return SERVER_OK;
+        return LOW_BALANCE;
     }
 }
 

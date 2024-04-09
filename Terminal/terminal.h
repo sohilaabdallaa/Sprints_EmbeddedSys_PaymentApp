@@ -1,8 +1,8 @@
 #ifndef _terminal_h_
 #define _terminal_h_
 
-#include "../Card/card.h" 
- 
+#include "card.h" 
+
 typedef struct ST_terminalData_t
 {
     float transAmount;
@@ -42,6 +42,6 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData);
 
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData);
 
-EN_terminalError_t setMaxAmount(ST_terminalData_t* termData);
+EN_terminalError_t setMaxAmount(ST_terminalData_t* termData, float maxTransAmount);
 
 #endif 
