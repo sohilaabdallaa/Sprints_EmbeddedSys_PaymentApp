@@ -225,17 +225,44 @@ EN_serverError_t saveTransaction(ST_transaction* transData)
             break;
         }
     }
-
-    // Check if the transactions database is full
-    if (i == sizeof(transactions) / sizeof(transactions[0]))
-    {
-        return SAVING_FAILED; // Return error if database is full
-    }
-
     // List all saved transactions
     listSavedTransactions();
 
     return SERVER_OK; // Return success
+}
+
+void saveTransactionTest(void) {
+    printf("Tester Name: Sohila Abdalla\n");
+    printf("Function Name: saveTransaction\n");
+
+
+    // Test Case 1: Happy case
+    printf("Test Case 1:\n");
+    ST_transaction transaction1 = {
+        .cardHolderData = {
+            .cardHolderName = "John Doe",  
+            .primaryAccountNumber = "1234567890123456",
+            .cardExpirationDate = "202512"
+        },
+        .terminalData = {
+            .transAmount = 100.0,  
+            .maxTransAmount = 200.0,
+            .transactionDate = "2024-04-15"
+        },
+        .transState = APPROVED,
+        .transactionSequenceNumber = 1
+    };
+    printf("Input Data: Transaction with sequence number %d\n", transaction1.transactionSequenceNumber);
+    printf("Expected Result: Success\n");
+    printf("Actual Result: \n\n");
+    EN_serverError_t result1 = saveTransaction(&transaction1);
+    if (result1 == SERVER_OK) {
+        printf("Success\n\n");
+    }
+    else {
+        printf("Failure\n\n");
+    }
+
 }
 // Function to print all transactions in the transactions DB
 void listSavedTransactions(void)
@@ -244,8 +271,7 @@ void listSavedTransactions(void)
     for (int i = 0; i < sizeof(transactions) / sizeof(transactions[0]); i++)
     {
         // Check if the transaction is empty (all fields are zeros)
-        if (transactions[i].transactionSequenceNumber == 0 &&
-            transactions[i].cardHolderData.primaryAccountNumber[0] == '\0')
+        if (transactions[i].transactionSequenceNumber == 0)
         {
             continue; // Skip empty transactions
         }
@@ -264,11 +290,22 @@ void listSavedTransactions(void)
 }
 
 void listSavedTransactionsTest(void) {
-    printf("Tester Name: Your Name\n");
+    printf("Tester Name: Sohila Abdalla\n");
     printf("Function Name: listSavedTransactions\n");
 
-    // Test Case 1: Happy Case - Transaction data available
+
+    // Test Case 1: No transaction data available
     printf("Test Case 1:\n");
+    // Assuming transactions have been initialized but no data has been added
+    // So, all transactions are empty
+    // Capture the output of the listSavedTransactions function
+    printf("Expected Result: No transaction data to display\n");
+    printf("Actual Result:\n");
+    listSavedTransactions();
+    printf("-----------------------------------------------------------------------\n");
+
+    // Test Case 2: Happy Case - Transaction data available
+    printf("Test Case 2:\n");
     // Assuming transactions have been initialized with some data
     // For demonstration, let's assume the first transaction has data
     transactions[0].transactionSequenceNumber = 1;
@@ -295,13 +332,4 @@ void listSavedTransactionsTest(void) {
     printf("Actual Result:\n");
     listSavedTransactions();
     printf("\n");
-
-    // Test Case 2: No transaction data available
-    printf("Test Case 2:\n");
-    // Assuming transactions have been initialized but no data has been added
-    // So, all transactions are empty
-    // Capture the output of the listSavedTransactions function
-    printf("Expected Result: No transaction data available\n");
-    printf("Actual Result:\n");
-    listSavedTransactions();
 }
